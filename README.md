@@ -88,7 +88,7 @@ FakeShield AI is a full-stack web application that analyzes ecommerce product re
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/fakeshield-ai.git
+git clone https://github.com/anikchak2002/fakeshieldai.git
 cd fakeshield-ai
 
 # Frontend
@@ -293,9 +293,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 <div align="center">
 
-**Built with ❤️ by [Anik Chakraborty](https://github.com/YOUR_USERNAME)**
+**Built with ❤️ by [Anik Chakraborty](https://github.com/anikchak2002)**
 
 ⭐ Star this repo if you found it useful!
 
 </div>
-]]>
