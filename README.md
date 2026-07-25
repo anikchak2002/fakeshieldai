@@ -1,4 +1,4 @@
-<![CDATA[<div align="center">
+<div align="center">
 
 # 🛡️ FakeShield AI
 
@@ -42,37 +42,27 @@ FakeShield AI is a full-stack web application that analyzes ecommerce product re
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────────────────────────────────────────┐
-│                    Frontend (React + Vite)           │
-│  ┌──────────┐  ┌──────────┐  ┌───────────────────┐  │
-│  │  Store    │  │  Admin   │  │  About            │  │
-│  │  View     │  │  Panel   │  │  Page             │  │
-│  └────┬─────┘  └────┬─────┘  └───────────────────┘  │
-│       │              │                                │
-│       └──────┬───────┘                                │
-│              ▼                                        │
-│     ┌────────────────┐                                │
-│     │  Detection     │                                │
-│     │  Engine Switch │                                │
-│     └───┬────┬───┬───┘                                │
-└─────────┼────┼───┼────────────────────────────────────┘
-          │    │   │
-    ┌─────┘    │   └─────┐
-    ▼          ▼         ▼
-┌────────┐ ┌────────┐ ┌──────────┐
-│Local   │ │Python  │ │LM Studio │
-│Heurist.│ │ML API  │ │Local LLM │
-│(browser│ │(Flask) │ │(optional)│
-└────────┘ └────────┘ └──────────┘
-                │
-          ┌─────┘
-          ▼
-   ┌─────────────┐
-   │  Firebase    │
-   │  Firestore   │
-   │  (Real-time) │
-   └─────────────┘
+```mermaid
+graph TD
+    subgraph Frontend["Frontend (React + Vite)"]
+        A[Store View] --> D[Detection Engine Switch]
+        B[Admin Panel] --> D
+        C[About Page]
+    end
+
+    D --> E[Local Heuristics<br/>Browser-side rules]
+    D --> F[Python ML API<br/>Flask + Naive Bayes]
+    D --> G[LM Studio LLM<br/>Local inference]
+
+    F --> H[(Firebase Firestore<br/>Real-time sync)]
+    E --> H
+    G --> H
+
+    style Frontend fill:#1e293b,stroke:#10b981,color:#f1f5f9
+    style E fill:#0f172a,stroke:#3b82f6,color:#93c5fd
+    style F fill:#0f172a,stroke:#10b981,color:#6ee7b7
+    style G fill:#0f172a,stroke:#06b6d4,color:#67e8f9
+    style H fill:#0f172a,stroke:#f59e0b,color:#fcd34d
 ```
 
 ---
@@ -89,7 +79,7 @@ FakeShield AI is a full-stack web application that analyzes ecommerce product re
 
 ```bash
 git clone https://github.com/anikchak2002/fakeshieldai.git
-cd fakeshield-ai
+cd fakeshieldai
 
 # Frontend
 cd frontend
@@ -142,7 +132,7 @@ Then switch to **"Python ML Backend"** in the Admin Panel.
 ## 📁 Project Structure
 
 ```
-fakeshield-ai/
+fakeshieldai/
 ├── frontend/                    # React App (Vite + Tailwind)
 │   ├── src/
 │   │   ├── App.jsx             # Main application component
@@ -206,6 +196,7 @@ curl -X POST http://localhost:5000/predict \
 ```
 
 **Response:**
+
 ```json
 {
   "isFlagged": false,
@@ -218,7 +209,10 @@ curl -X POST http://localhost:5000/predict \
 ### `GET /health`
 
 ```json
-{ "status": "ok", "model_loaded": true }
+{
+  "status": "ok",
+  "model_loaded": true
+}
 ```
 
 ---
@@ -226,20 +220,26 @@ curl -X POST http://localhost:5000/predict \
 ## ⚙️ Customization
 
 ### Add Products
+
 Edit `SEED_PRODUCTS` in `App.jsx`:
+
 ```javascript
 { id: 'p5', name: 'New Product', price: 1999, image: '🎮', description: '...' }
 ```
 
 ### Switch ML Algorithm
+
 In `model_train.py`, swap Naive Bayes for another classifier:
+
 ```python
 from sklearn.ensemble import RandomForestClassifier
 model = RandomForestClassifier(n_estimators=100)
 ```
 
 ### Adjust Detection Sensitivity
+
 Modify thresholds in `app.py`:
+
 ```python
 is_fake = (probabilities[1] > 0.6)  # Default: 0.5
 ```
